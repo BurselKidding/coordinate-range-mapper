@@ -570,6 +570,7 @@
             emptyHint: '输入经纬度后点击添加，\n或直接点击地图标注',
             btnClose: '🔒 闭合多边形',
             areaText: '📐 范围面积约：',
+            perimeterText: '📏 周长约：',
             closedTag: '（已闭合）',
             unclosedTag: '（未闭合）',
             hintTitle: '💡 操作提示',
@@ -617,6 +618,7 @@
             emptyHint: 'Enter coordinates above,\nor click directly on the map',
             btnClose: '🔒 Close Polygon',
             areaText: '📐 Range area approx: ',
+            perimeterText: '📏 Perimeter: ',
             closedTag: ' (closed)',
             unclosedTag: ' (unclosed)',
             hintTitle: '💡 Tips',
@@ -788,6 +790,18 @@
     function fmtArea(km2) {
         return km2>=1?km2.toFixed(2)+' km²':(km2*1e6).toFixed(0)+' m²';
     }
+    function calcPerimeter(pts) {
+        if (pts.length<2) return null;
+        let total=0; const n=pts.length;
+        for(let i=0;i<n;i++){
+            const j=(i+1)%n;
+            total+=L.latLng(pts[i].lat,pts[i].lng).distanceTo(L.latLng(pts[j].lat,pts[j].lng));
+        }
+        return total;
+    }
+    function fmtDist(m) {
+        return m>=1000?(m/1000).toFixed(2)+' km':m.toFixed(0)+' m';
+    }
 
     /* ================================================================
        RENDER MAP
@@ -825,7 +839,9 @@
         const panel = document.getElementById('panel');
         const closed = _polygonClosed;
         const area = calcArea(points);
+        const perimeter = calcPerimeter(points);
         const areaStr = area!==null ? fmtArea(area) : '';
+        const perimeterStr = perimeter!==null ? fmtDist(perimeter) : '';
 
         panel.innerHTML = `
         <div class="panel-inner">
@@ -899,7 +915,7 @@
 
             <!-- Area -->
             <div class="area-box ${area!==null?'visible':''}" id="areaBox">
-                ${area!==null ? t('areaText')+areaStr+(closed?t('closedTag'):t('unclosedTag')) : ''}
+                ${area!==null ? t('areaText')+areaStr+(closed?t('closedTag'):t('unclosedTag')) : ''}${perimeter!==null ? '<br>'+t('perimeterText')+perimeterStr : ''}
             </div>
 
             <!-- Error -->
