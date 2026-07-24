@@ -36,7 +36,7 @@
             --font-mono: 'JetBrains Mono', 'Courier New', monospace;
         }
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:var(--font-ui);background:var(--bg-deep);color:var(--text);min-height:100vh}
+        body{font-family:var(--font-ui);background:var(--body-bg);color:var(--text);min-height:100vh}
         body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
         .container{max-width:800px;margin:0 auto;padding:40px 24px}
         nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
@@ -67,13 +67,8 @@
     </style>
 </head>
 <body>
+<div id="shared-nav"></div>
 <div class="container">
-    <nav>
-        <a href="/">Home</a>
-        <a href="/mapper.html">Mapper</a>
-        <a href="/converter.html">Converter</a>
-        <a href="/guide.html" class="active">Guide &amp; FAQ</a>
-    </nav>
 
     <h1>How to Plot Coordinates &amp; Draw Ranges on a Map</h1>
     <p class="subtitle">A complete guide to using the Coordinate Range Mapper — from entering DMS coordinates to calculating polygon area. No registration required.</p>
@@ -155,5 +150,6 @@
         <p><a href="/">Coordinate Range Mapper</a> &middot; <a href="/converter.html">Converter</a> &middot; <a href="/guide.html">Guide</a> &middot; <a href="/sitemap.xml">Sitemap</a></p>
     </footer>
 </div>
+<script src="/shared.js"></script>
 </body>
 </html>

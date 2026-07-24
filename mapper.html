@@ -105,9 +105,9 @@
 
         body {
             font-family: var(--font-ui);
-            background: var(--bg-deep);
+            background: var(--body-bg);
             display: flex;
-            /* subtle noise texture overlay */
+            flex-direction: column;
             position: relative;
         }
         body::after {
@@ -544,8 +544,11 @@
 </head>
 <body>
 
+    <div id="shared-nav"></div>
+    <div style="display:flex;flex:1;min-height:0;">
     <div id="panel"></div>
     <div id="map"></div>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
@@ -865,12 +868,6 @@
 
         panel.innerHTML = `
         <div class="panel-inner">
-            <div class="nav">
-                <a href="/">Home</a>
-                <a href="/mapper.html" class="active">Mapper</a>
-                <a href="/converter.html">Converter</a>
-                <a href="/guide.html">Guide</a>
-            </div>
             <!-- Header -->
             <div class="header">
                 <div class="logo">
@@ -879,10 +876,6 @@
                         <h2>${t('title')}</h2>
                         <span>${t('version')}</span>
                     </div>
-                </div>
-                <div class="lang-switch">
-                    <button class="${currentLang==='zh'?'active':''}" data-lang="zh">中</button>
-                    <button class="${currentLang==='en'?'active':''}" data-lang="en">EN</button>
                 </div>
             </div>
 
@@ -983,20 +976,12 @@
         const $ = (id) => document.getElementById(id);
 
         // Lang switch
-        document.querySelectorAll('.lang-switch button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.dataset.lang;
-                if (lang === currentLang) return;
-                currentLang = lang;
-                document.documentElement.lang = lang==='zh'?'zh-CN':'en';
-                // update URL without reload
-                const url = new URL(window.location);
-                url.searchParams.set('lang', lang);
-                window.history.replaceState({}, '', url);
-                // re-render panel
-                renderPanel();
-                renderMap();
-            });
+        // Listen to shared.js language changes
+        window.addEventListener('langchange', (e) => {
+            currentLang = e.detail;
+            document.documentElement.lang = currentLang==='zh'?'zh-CN':'en';
+            renderPanel();
+            renderMap();
         });
 
         // Add single point
@@ -1130,6 +1115,8 @@
     // Init
     renderAll();
     </script>
+
+    <script src="/shared.js"></script>
 
 </body>
 </html>
