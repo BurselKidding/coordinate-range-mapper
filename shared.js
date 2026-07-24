@@ -106,8 +106,9 @@ function renderNav() {
     if (!el) return;
     const path = window.location.pathname.replace(/\/$/, '');
     const isActive = (href) => {
-        if (href === '/') return path === '' || path === '/index.html' || path === '/index';
-        return path === href || path.endsWith(href);
+        if (href === '/') return path === '' || path === '/index';
+        const stem = href.replace('.html', '');
+        return path === href || path === stem;
     };
 
     el.innerHTML =
