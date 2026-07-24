@@ -66,6 +66,15 @@ function injectCSS(css) {
 injectCSS(THEME_CSS);
 injectCSS(NAV_CSS);
 
+/* ── AdSense (single load for all pages) ── */
+(function() {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7515870770543020';
+    s.crossOrigin = 'anonymous';
+    document.head.appendChild(s);
+})();
+
 /* ── State ── */
 let currentLang = 'en';
 let currentTheme = 'dark';
