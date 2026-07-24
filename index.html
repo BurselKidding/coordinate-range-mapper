@@ -554,14 +554,14 @@
             singleTitle: '单点输入',
             lngLabel: '经度',
             latLabel: '纬度',
-            lngPh: '117-31.49E 或 117.524',
-            latPh: '23-41.31N 或 23.688',
+            lngPh: '121-50.50E 或 121.841',
+            latPh: '30-50.25N 或 30.837',
             btnAdd: '➕ 添加',
             btnClear: '🗑 清除全部',
             batchTitle: '📋 批量输入',
             batchExpand: '点击展开',
             batchCollapse: '点击收起',
-            batchPh: '每行一对坐标，支持度分或十进制格式：\n23-41.31N、117-31.49E\n23-36.23N、117-28.73E\n23-35.10N、117-30.10E\n23-38.60N、117-36.21E\n23-41.30N、117-34.58E\n\n分隔符：逗号、顿号、空格、TAB 均可',
+            batchPh: '每行一对坐标，支持度分或十进制格式：\n40-42.50N、074-00.40W\n51-30.20N、000-07.50W\n35-41.30N、139-41.50E\n48-51.40N、002-17.60E\n33-51.50S、151-12.40E\n\n分隔符：逗号、顿号、空格、TAB 均可',
             btnBatchAdd: '📥 批量添加',
             btnBatchReplace: '🔄 替换全部',
             pointsTitle: '已添加的坐标点',
@@ -601,14 +601,14 @@
             singleTitle: 'Single Input',
             lngLabel: 'Longitude',
             latLabel: 'Latitude',
-            lngPh: '117-31.49E or 117.524',
-            latPh: '23-41.31N or 23.688',
+            lngPh: '121-50.50E or 121.841',
+            latPh: '30-50.25N or 30.837',
             btnAdd: '➕ Add',
             btnClear: '🗑 Clear All',
             batchTitle: '📋 Batch Input',
             batchExpand: 'Click to expand',
             batchCollapse: 'Click to collapse',
-            batchPh: 'One coordinate pair per line, DMS or decimal:\n23-41.31N, 117-31.49E\n23-36.23N, 117-28.73E\n23-35.10N, 117-30.10E\n23-38.60N, 117-36.21E\n23-41.30N, 117-34.58E\n\nDelimiters: comma, semicolon, space, tab',
+            batchPh: 'One coordinate pair per line, DMS or decimal:\n40-42.50N, 074-00.40W\n51-30.20N, 000-07.50W\n35-41.30N, 139-41.50E\n48-51.40N, 002-17.60E\n33-51.50S, 151-12.40E\n\nDelimiters: comma, semicolon, space, tab',
             btnBatchAdd: '📥 Batch Add',
             btnBatchReplace: '🔄 Replace All',
             pointsTitle: 'Added Points',
@@ -649,7 +649,7 @@
        ================================================================ */
     let points = [];
     let _polygonClosed = false;
-    let currentLang = 'zh';
+    let currentLang = 'en';
 
     /* ================================================================
        DETECT LANGUAGE
@@ -661,7 +661,7 @@
             currentLang = urlLang;
         } else {
             const nav = (navigator.language || '').toLowerCase();
-            currentLang = nav.startsWith('zh') ? 'zh' : 'en';
+            currentLang = urlLang === 'zh' ? 'zh' : 'en';
         }
         document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
     })();
