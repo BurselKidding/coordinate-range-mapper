@@ -29,7 +29,7 @@
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:var(--font-ui);background:var(--body-bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
         body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-        .main{width:480px;min-width:480px;background:linear-gradient(180deg,#0f2445 0%,#0c1c33 100%);border-right:1px solid var(--border);padding:32px 28px;display:flex;flex-direction:column;gap:20px;overflow-y:auto;z-index:1000}
+        .main{width:480px;min-width:480px;background:var(--panel-bg);border-right:1px solid var(--border);padding:32px 28px;display:flex;flex-direction:column;gap:20px;overflow-y:auto;z-index:1000}
         .main h1{font-family:var(--font-display);font-size:22px;color:var(--text);letter-spacing:.5px}
         .main h1 span{font-size:11px;color:var(--text-dim);display:block;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px}
         .sec-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--amber-dim)}
@@ -53,7 +53,7 @@
         .btn-ghost:hover{color:var(--text)}
         .error{font-size:12px;color:#c46060;display:none;padding:8px 12px;background:rgba(196,96,96,.08);border-radius:6px}
         .error.visible{display:block}
-        #map{flex:1;background:var(--bg-deep)}
+        #map{flex:1;background:var(--body-bg)}
         .leaflet-control-zoom a{background:var(--bg-card)!important;color:var(--text)!important;border-color:var(--border)!important}
         .leaflet-control-attribution{background:rgba(15,36,64,.85)!important;color:var(--text-dim)!important;font-size:10px!important}
         .leaflet-control-attribution a{color:var(--amber)!important}

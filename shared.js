@@ -14,6 +14,7 @@ const THEME_CSS = `
     --error: #c46060;
     --shadow: rgba(0,0,0,0.3);
     --body-bg: #0b1a2e;
+    --panel-bg: linear-gradient(180deg, #0f2445 0%, #0c1c33 100%);
     --nav-bg: transparent;
 }
 :root[data-theme="light"] {
@@ -24,6 +25,7 @@ const THEME_CSS = `
     --error: #c04040;
     --shadow: rgba(0,0,0,0.08);
     --body-bg: #f0f3f7;
+    --panel-bg: linear-gradient(180deg, #ffffff 0%, #edf0f5 100%);
     --nav-bg: transparent;
 }
 `;
