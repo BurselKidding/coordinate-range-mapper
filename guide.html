@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to Use Coordinate Mapper — Guide &amp; FAQ | Coordinate Range Mapper</title>
+    <meta name="description" content="Learn how to input DMS coordinates, batch plot points on a map, close polygons, and calculate area. Step-by-step guide with examples and FAQ." />
+    <meta name="keywords" content="how to use coordinate mapper, DMS tutorial, plot coordinates on map, batch coordinate input, polygon area calculation" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://map.basesite.org/guide.html" />
+    <meta property="og:title" content="How to Use Coordinate Mapper — Guide &amp; FAQ" />
+    <meta property="og:description" content="Step-by-step guide: input DMS coordinates, batch plot points, close polygons, and calculate area. Free online tool." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://map.basesite.org/guide.html" />
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Article","headline":"How to Use Coordinate Mapper","description":"Step-by-step guide on using the online coordinate range mapper. Learn to input DMS and decimal coordinates, batch plot points, close polygons, and calculate area.","author":{"@type":"Organization","name":"Coordinate Range Mapper"},"inLanguage":"en"}
+    </script>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+        {"@type":"Question","name":"What coordinate formats does the mapper support?","acceptedAnswer":{"@type":"Answer","text":"It supports DMS (40-42.50N), Decimal (40.7083), and DMM (40\u00b042.50'N) formats. Batch input also accepts mixed formats with comma, semicolon, or space delimiters."}},
+        {"@type":"Question","name":"How do I calculate the area of a polygon on the map?","acceptedAnswer":{"@type":"Answer","text":"Add at least 3 coordinate points, then click 'Close Polygon'. The tool automatically calculates and displays the area in km\u00b2 or m\u00b2, along with the perimeter."}},
+        {"@type":"Question","name":"Can I export my coordinates to GeoJSON?","acceptedAnswer":{"@type":"Answer","text":"Yes. After plotting your points and closing the polygon, click the Export button to download a GeoJSON file compatible with GIS software."}},
+        {"@type":"Question","name":"Is this tool free to use?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. No registration, no API key required. Built with open-source Leaflet and OpenStreetMap."}}
+    ]}
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230b1a2e' stroke='%23e8b44b' stroke-width='2'/><polygon points='16,6 26,26 6,26' fill='none' stroke='%235a9e7c' stroke-width='2'/><circle cx='16' cy='16' r='3' fill='%23e8b44b'/></svg>" />
+    <style>
+        :root {
+            --bg-deep: #0b1a2e; --bg-card: #132d52; --border: #1e3a5f; --amber: #e8b44b; --green: #5a9e7c;
+            --text: #d4cfc4; --text-dim: #8a8578; --text-muted: #5a564d; --copper: #c4875a;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-ui: 'DM Sans', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-ui);background:var(--bg-deep);color:var(--text);min-height:100vh}
+        body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+        .container{max-width:800px;margin:0 auto;padding:40px 24px}
+        nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+        nav a{color:var(--text-dim);text-decoration:none;font-size:13px;padding:6px 12px;border-radius:6px;transition:all .2s;border:1px solid var(--border)}
+        nav a:hover{color:var(--text);background:var(--bg-card)}
+        nav a.active{color:var(--amber);border-color:var(--amber)}
+        h1{font-family:var(--font-display);font-size:36px;color:var(--text);margin-bottom:8px;letter-spacing:.5px}
+        .subtitle{color:var(--text-dim);font-size:15px;margin-bottom:48px;line-height:1.6}
+        h2{font-family:var(--font-display);font-size:24px;color:var(--amber);margin:48px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+        h3{font-size:18px;color:var(--text);margin:28px 0 10px}
+        p{color:var(--text-dim);font-size:14px;line-height:1.8;margin-bottom:16px}
+        code{background:var(--bg-card);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);font-size:13px;color:var(--amber);border:1px solid var(--border)}
+        .step{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:20px;position:relative}
+        .step .num{position:absolute;top:-14px;left:20px;background:var(--amber);color:var(--bg-deep);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;font-family:var(--font-mono)}
+        .step h3{margin-top:0}
+        .step p:last-child{margin-bottom:0}
+        ul{list-style:none;margin:12px 0 20px}
+        ul li{color:var(--text-dim);font-size:14px;line-height:1.8;padding-left:20px;position:relative}
+        ul li::before{content:'\2022';color:var(--amber);position:absolute;left:0;font-weight:bold}
+        .faq-item{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:12px}
+        .faq-item .q{color:var(--text);font-weight:600;font-size:14px;margin-bottom:8px}
+        .faq-item .a{color:var(--text-dim);font-size:13px;line-height:1.7}
+        .cta{display:inline-block;margin-top:32px;padding:12px 28px;background:var(--amber);color:var(--bg-deep);text-decoration:none;border-radius:6px;font-weight:600;font-size:14px;transition:background .2s}
+        .cta:hover{background:#f0c860}
+        footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);text-align:center}
+        footer a{color:var(--amber-dim);text-decoration:none}
+        @media(max-width:640px){h1{font-size:26px}h2{font-size:20px}.container{padding:24px 16px}}
+    </style>
+</head>
+<body>
+<div class="container">
+    <nav>
+        <a href="/">Mapper</a>
+        <a href="/converter.html">Converter</a>
+        <a href="/guide.html" class="active">Guide &amp; FAQ</a>
+    </nav>
+
+    <h1>How to Plot Coordinates &amp; Draw Ranges on a Map</h1>
+    <p class="subtitle">A complete guide to using the Coordinate Range Mapper — from entering DMS coordinates to calculating polygon area. No registration required.</p>
+
+    <h2>Step-by-Step Guide</h2>
+
+    <div class="step">
+        <div class="num">1</div>
+        <h3>Enter Your Coordinates</h3>
+        <p>You can input coordinates in <strong>three formats</strong>:</p>
+        <ul>
+            <li><strong>DMS</strong> (Degrees-Minutes-Seconds style): <code>40-42.50N</code> for latitude, <code>074-00.40W</code> for longitude</li>
+            <li><strong>Decimal</strong>: <code>40.70833</code>, <code>-74.00667</code></li>
+            <li><strong>DMM</strong> (Degrees Decimal Minutes): <code>40&deg;42.50'N</code>, <code>074&deg;00.40'W</code></li>
+        </ul>
+        <p>Type into the <em>Longitude</em> and <em>Latitude</em> fields, then click <strong>Add</strong>. Or click directly on the map to drop a point.</p>
+    </div>
+
+    <div class="step">
+        <div class="num">2</div>
+        <h3>Batch Add Multiple Points</h3>
+        <p>For multiple coordinates, expand the <strong>Batch Input</strong> section and paste them all at once — one pair per line. The tool auto-detects the format:</p>
+        <p style="font-family:var(--font-mono);font-size:13px;background:var(--bg-deep);padding:12px;border-radius:6px;color:var(--text);">
+            40-42.50N, 074-00.40W<br>
+            51-30.20N, 000-07.50W<br>
+            35-41.30N, 139-41.50E
+        </p>
+        <p>Click <strong>Batch Add</strong> to append, or <strong>Replace All</strong> to start fresh.</p>
+    </div>
+
+    <div class="step">
+        <div class="num">3</div>
+        <h3>Close the Polygon &amp; View Results</h3>
+        <p>Once you have <strong>3 or more points</strong>, click <strong>Close Polygon</strong>. The tool:</p>
+        <ul>
+            <li>Connects the last point back to the first, forming a closed shape</li>
+            <li>Highlights the range area in green on the map</li>
+            <li>Displays the <strong>area</strong> (km&sup2; or m&sup2;) and <strong>perimeter</strong> (km or m)</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <div class="num">4</div>
+        <h3>Convert or Export</h3>
+        <p>Need to convert your coordinates to a different format? Use the <a href="/converter.html" style="color:var(--amber);">Coordinate Converter</a> to switch between DMS, Decimal, and DMM.</p>
+        <p>Want to save your polygon? Click <strong>Export GeoJSON</strong> to download a standard GeoJSON file compatible with QGIS, Google Earth, and other GIS tools.</p>
+    </div>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+        <div class="q">What coordinate formats does the mapper support?</div>
+        <div class="a">DMS (40-42.50N), Decimal (40.7083), and DMM (40&deg;42.50'N). Batch input accepts mixed formats with comma, semicolon, space, or tab delimiters.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="q">How do I calculate the area of a polygon?</div>
+        <div class="a">Add at least 3 points, then click <strong>Close Polygon</strong>. The area (in km&sup2; or m&sup2;) and perimeter appear automatically below the coordinate list.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="q">Can I export my data?</div>
+        <div class="a">Yes. After closing the polygon, use the Export button to download a GeoJSON file. It includes all your points and the polygon geometry.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="q">Is this tool really free?</div>
+        <div class="a">Completely. No registration, no API key, no data collection. Built with open-source Leaflet and OpenStreetMap. The source code is on GitHub.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="q">Does it work on mobile?</div>
+        <div class="a">Yes. The interface is fully responsive — the panel stacks above the map on smaller screens. You can tap the map to add points, just like on desktop.</div>
+    </div>
+
+    <a href="/" class="cta">Open the Mapper &rarr;</a>
+
+    <footer>
+        <p><a href="/">Coordinate Range Mapper</a> &middot; <a href="/converter.html">Converter</a> &middot; <a href="/guide.html">Guide</a> &middot; <a href="/sitemap.xml">Sitemap</a></p>
+    </footer>
+</div>
+</body>
+</html>

@@ -575,6 +575,7 @@
             emptyList: '暂无坐标点',
             emptyHint: '输入经纬度后点击添加，\n或直接点击地图标注',
             btnClose: '🔒 闭合多边形',
+            btnExport: '📥 导出 GeoJSON',
             areaText: '📐 范围面积约：',
             perimeterText: '📏 周长约：',
             closedTag: '（已闭合）',
@@ -623,6 +624,7 @@
             emptyList: 'No coordinates yet',
             emptyHint: 'Enter coordinates above,\nor click directly on the map',
             btnClose: '🔒 Close Polygon',
+            btnExport: '📥 Export GeoJSON',
             areaText: '📐 Range area approx: ',
             perimeterText: '📏 Perimeter: ',
             closedTag: ' (closed)',
@@ -808,6 +810,19 @@
     function fmtDist(m) {
         return m>=1000?(m/1000).toFixed(2)+' km':m.toFixed(0)+' m';
     }
+    function exportGeoJSON() {
+        const features=[],coords=points.map(p=>[p.lng,p.lat]);
+        features.push({type:'Feature',geometry:{type:'MultiPoint',coordinates:coords},properties:{type:'points'}});
+        if (points.length>=3) {
+            const ring=[...coords,coords[0]];
+            features.push({type:'Feature',geometry:{type:'Polygon',coordinates:[ring]},properties:{area_km2:calcArea(points),perimeter_m:calcPerimeter(points)}});
+        }
+        const geojson={type:'FeatureCollection',features};
+        const blob=new Blob([JSON.stringify(geojson,null,2)],{type:'application/geo+json'});
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');a.href=url;a.download='coordinates.geojson';a.click();
+        URL.revokeObjectURL(url);
+    }
 
     /* ================================================================
        RENDER MAP
@@ -854,6 +869,7 @@
             <div class="nav">
                 <a href="/" class="active">Mapper</a>
                 <a href="/converter.html">Converter</a>
+                <a href="/guide.html">Guide</a>
             </div>
             <!-- Header -->
             <div class="header">
@@ -921,6 +937,7 @@
 
             <div class="btn-row">
                 <button class="btn btn-green" id="btnClosePolygon">${t('btnClose')}</button>
+                <button class="btn btn-copper" id="btnExport">${t('btnExport')}</button>
             </div>
 
             <!-- Area -->
@@ -1013,6 +1030,12 @@
         $('btnClosePolygon').addEventListener('click', () => {
             if (points.length<3) { alert(t('alertNeed3')); return; }
             _polygonClosed=true; renderAll();
+        });
+
+        // Export GeoJSON
+        $('btnExport').addEventListener('click', () => {
+            if (points.length<3 && !_polygonClosed) { alert(t('alertNeed3')); return; }
+            exportGeoJSON();
         });
 
         // Batch header toggle
