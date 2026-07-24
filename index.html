@@ -150,6 +150,12 @@
             flex: 1;
         }
 
+        /* ── NAV ── */
+        .nav{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+        .nav a{color:var(--text-dim);text-decoration:none;font-size:11px;padding:3px 8px;border-radius:4px;transition:all .2s;letter-spacing:.5px}
+        .nav a:hover{color:var(--text);background:var(--bg-card)}
+        .nav a.active{color:var(--amber);background:var(--bg-card)}
+
         /* ── HEADER ── */
         .header {
             display: flex;
@@ -845,6 +851,10 @@
 
         panel.innerHTML = `
         <div class="panel-inner">
+            <div class="nav">
+                <a href="/" class="active">Mapper</a>
+                <a href="/converter.html">Converter</a>
+            </div>
             <!-- Header -->
             <div class="header">
                 <div class="logo">
