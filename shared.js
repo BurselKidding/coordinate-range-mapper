@@ -104,10 +104,10 @@ function t(key) { return (LANG_DICT[currentLang] || LANG_DICT.en)[key] || key; }
 function renderNav() {
     const el = document.getElementById('shared-nav');
     if (!el) return;
-    const path = window.location.pathname;
+    const path = window.location.pathname.replace(/\/$/, '');
     const isActive = (href) => {
-        if (href === '/') return path === '/' || path === '/index.html';
-        return path.endsWith(href);
+        if (href === '/') return path === '' || path === '/index.html' || path === '/index';
+        return path === href || path.endsWith(href);
     };
 
     el.innerHTML =
