@@ -8,3 +8,5 @@
 # Python server artifacts
 __pycache__/
 *.pyc
+
+.reasonix/

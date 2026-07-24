@@ -662,6 +662,8 @@
        ================================================================ */
     let points = [];
     let _polygonClosed = false;
+    let _panelScroll = 0;
+    let _langChangeHandler = null;
     let currentLang = 'en';
 
     /* ================================================================
@@ -687,6 +689,9 @@
        MAP
        ================================================================ */
     const map = L.map('map').setView([30, 0], 2);
+    let _userInteracted = false;
+    map.on('movestart', () => { _userInteracted = true; });
+    map.on('zoomstart', () => { _userInteracted = true; });
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 19,
@@ -853,7 +858,8 @@
                 fillOpacity:closed ? .25 : .06,dashArray:closed?'':'4 2'
             }).addTo(polygonLayer);
         }
-        if (latlngs.length) map.fitBounds(L.latLngBounds(latlngs),{padding:[40,40],maxZoom:16});
+        // Only auto-fit when user hasn't manually panned/zoomed (first render or batch replace)
+        if (latlngs.length && !_userInteracted) map.fitBounds(L.latLngBounds(latlngs),{padding:[40,40],maxZoom:16});
     }
 
     /* ================================================================
@@ -861,6 +867,7 @@
        ================================================================ */
     function renderPanel() {
         const panel = document.getElementById('panel');
+        const savedScroll = _panelScroll;
         const closed = _polygonClosed;
         const area = calcArea(points);
         const perimeter = calcPerimeter(points);
@@ -966,6 +973,11 @@
 
         // rebind events
         bindEvents();
+        // Restore scroll after full layout (double rAF). Using _panelScroll
+        // because panel.scrollTop is 0 right after innerHTML replacement.
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => { panel.scrollTop = savedScroll; });
+        });
     }
 
     let _batchOpen = false;
@@ -976,14 +988,15 @@
     function bindEvents() {
         const $ = (id) => document.getElementById(id);
 
-        // Lang switch
-        // Listen to shared.js language changes
-        window.addEventListener('langchange', (e) => {
+        // Lang switch (remove old listener to avoid accumulation)
+        if (_langChangeHandler) window.removeEventListener('langchange', _langChangeHandler);
+        _langChangeHandler = (e) => {
             currentLang = e.detail;
             document.documentElement.lang = currentLang==='zh'?'zh-CN':'en';
             renderPanel();
             renderMap();
-        });
+        };
+        window.addEventListener('langchange', _langChangeHandler);
 
         // Add single point
         $('btnAdd').addEventListener('click', () => {
@@ -1055,6 +1068,7 @@
             }
             points = result.points;
             _polygonClosed=false;
+            _userInteracted = false; // allow map to re-fit after batch replace
             renderAll();
             showError(result.errors, 'warn');
         });
@@ -1112,6 +1126,12 @@
         if(il)il.value=lng.toFixed(6);
         if(ila)ila.value=lat.toFixed(6);
     });
+
+    // Track panel scroll position so it survives innerHTML resets
+    (function() {
+        const panel = document.getElementById('panel');
+        panel.addEventListener('scroll', () => { _panelScroll = panel.scrollTop; }, { passive: true });
+    })();
 
     // Init
     renderAll();
