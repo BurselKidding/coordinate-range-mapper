@@ -673,11 +673,25 @@
     /* ================================================================
        MAP
        ================================================================ */
-    const map = L.map('map').setView([23.65, 117.55], 12);
+    const map = L.map('map').setView([30, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 19,
     }).addTo(map);
+
+    // 尝试定位到用户位置
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                map.setView([pos.coords.latitude, pos.coords.longitude], 12);
+                L.circleMarker([pos.coords.latitude, pos.coords.longitude], {
+                    radius: 8, color: '#5a9e7c', fillColor: '#5a9e7c', fillOpacity: 0.6, weight: 2
+                }).addTo(map).bindTooltip('You are here', { direction: 'top' });
+            },
+            function() { /* 用户拒绝或无 GPS，保持世界视图 */ },
+            { timeout: 5000, enableHighAccuracy: false }
+        );
+    }
 
     const markersLayer = L.layerGroup().addTo(map);
     const polygonLayer = L.layerGroup().addTo(map);
