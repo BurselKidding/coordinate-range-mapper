@@ -3,4 +3,4 @@ Allow: /
 Disallow: /node_modules/
 Disallow: /.git/
 
-Sitemap: https://YOUR_DOMAIN/sitemap.xml
+Sitemap: https://map.basesite.org/sitemap.xml
