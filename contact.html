@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact — Coordinate Range Mapper</title>
+    <meta name="description" content="Contact the Coordinate Range Mapper team. Report issues, request features, or ask questions." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://map.basesite.org/contact" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230b1a2e' stroke='%23e8b44b' stroke-width='2'/><polygon points='16,6 26,26 6,26' fill='none' stroke='%235a9e7c' stroke-width='2'/><circle cx='16' cy='16' r='3' fill='%23e8b44b'/></svg>" />
+    <style>
+        :root {
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-ui: 'DM Sans', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-ui);background:var(--body-bg);color:var(--text);min-height:100vh}
+        body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+        .container{max-width:800px;margin:0 auto;padding:60px 24px}
+        h1{font-family:var(--font-display);font-size:36px;color:var(--text);margin-bottom:32px}
+        p{font-size:14px;line-height:1.8;color:var(--text-dim);margin-bottom:14px}
+        .card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:20px}
+        .card h3{font-size:18px;color:var(--amber);margin-bottom:10px;font-family:var(--font-display)}
+        a{color:var(--amber-dim)}
+        footer{text-align:center;padding:32px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);margin-top:60px}
+        footer a{color:var(--amber-dim);text-decoration:none}
+        @media(max-width:640px){h1{font-size:26px}.container{padding:40px 16px}}
+    </style>
+</head>
+<body>
+<div id="shared-nav"></div>
+<div class="container">
+    <h1>Contact</h1>
+    <p>Have a bug report, feature request, or question? Reach out through any of the channels below.</p>
+
+    <div class="card">
+        <h3>GitHub Issues</h3>
+        <p>For bug reports and feature requests, open an issue on our GitHub repository.<br>
+        <a href="https://github.com/BurselKidding/coordinate-range-mapper/issues" target="_blank" rel="noopener">github.com/BurselKidding/coordinate-range-mapper/issues &rarr;</a></p>
+    </div>
+
+    <div class="card">
+        <h3>GitHub Discussions</h3>
+        <p>For questions, ideas, or general discussion about the tools.<br>
+        <a href="https://github.com/BurselKidding/coordinate-range-mapper/discussions" target="_blank" rel="noopener">github.com/BurselKidding/coordinate-range-mapper/discussions &rarr;</a></p>
+    </div>
+
+    <div class="card">
+        <h3>About This Project</h3>
+        <p>Coordinate Range Mapper is a free, open-source set of online GIS tools. Built with Leaflet and OpenStreetMap. No tracking, no paywalls, no registration required.</p>
+    </div>
+
+    <footer>
+        <p><a href="/">Coordinate Range Mapper</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/contact">Contact</a></p>
+    </footer>
+</div>
+<script src="/shared.js"></script>
+</body>
+</html>

@@ -72,9 +72,9 @@ let currentTheme = 'dark';
 
 /* ── Language ── */
 const LANG_DICT = {
-    en: { home:'Home', mapper:'Mapper', converter:'Converter', guide:'Guide & FAQ',
+    en: { home:'Home', mapper:'Mapper', converter:'Converter', guide:'Guide & FAQ', privacy:'Privacy', contact:'Contact',
           themeLight:'☀ Light', themeDark:'☾ Dark', langZh:'中', langEn:'EN' },
-    zh: { home:'首页', mapper:'标注', converter:'转换', guide:'教程',
+    zh: { home:'首页', mapper:'标注', converter:'转换', guide:'教程', privacy:'隐私', contact:'联系',
           themeLight:'☀ 亮色', themeDark:'☾ 暗色', langZh:'中', langEn:'EN' }
 };
 function t(key) { return (LANG_DICT[currentLang] || LANG_DICT.en)[key] || key; }
@@ -117,6 +117,9 @@ function renderNav() {
         '<a href="/mapper.html"' + (isActive('/mapper.html')?' class="active"':'') + '>' + t('mapper') + '</a>' +
         '<a href="/converter.html"' + (isActive('/converter.html')?' class="active"':'') + '>' + t('converter') + '</a>' +
         '<a href="/guide.html"' + (isActive('/guide.html')?' class="active"':'') + '>' + t('guide') + '</a>' +
+        '<span style="color:var(--border);margin:0 4px;">|</span>' +
+        '<a href="/privacy.html"' + (isActive('/privacy.html')?' class="active"':'') + ' style="font-size:12px;">' + t('privacy') + '</a>' +
+        '<a href="/contact.html"' + (isActive('/contact.html')?' class="active"':'') + ' style="font-size:12px;">' + t('contact') + '</a>' +
     '</div>' +
     '<div class="controls">' +
         '<button class="ctrl-btn" id="btn-theme" title="Toggle theme">' + (currentTheme==='dark' ? t('themeLight') : t('themeDark')) + '</button>' +
